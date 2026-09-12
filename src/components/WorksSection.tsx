@@ -1,19 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
-  Layers,
-  Zap,
   RotateCw,
   Play,
-  TrendingUp,
-  Sliders,
-  Sparkles,
+  Pause,
   ArrowRight,
   Terminal,
   Activity,
-  CheckCircle2
+  Sliders,
+  Sparkles
 } from 'lucide-react';
 import { sfx } from '../lib/audio';
 import { ProjectArtifact } from '../types';
@@ -26,7 +23,7 @@ interface WorksSectionProps {
 const REEL_SYMBOLS = ['777', 'BAR', 'NEON', 'CYBER', 'JACKPOT', 'GEM', 'BOLT'];
 
 export const ALL_PROJECTS: ProjectArtifact[] = [
-  // 1. Jacob's Ladder Cafe & Hospitality Engine (Live Preview)
+  // 1. Jacob's Ladder Cafe & Digital Storefront (Live Preview)
   {
     id: 'jacobs-ladder',
     title: "Jacob's Ladder Cafe & Digital Storefront",
@@ -35,7 +32,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     clientUrl: 'https://jacobscafe.netlify.app',
     domain: 'jacobscafe.netlify.app',
     highlightBadge: 'Fast Mobile Ordering',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAZBsxdFnvyMSXXHJaqezsLAfM1PlJHgPUfoDrFwIJWyWQzJaYHY6S3nFvCKZC6PSbpXCKqCrhxFniTLTjUao5aTS-CR9kLt7rDLI9SP255eRZcmw3Zof8XHZyh-muVzLovUt5oo5CXT-NfMec8yQBgtJ7axl_rsK3n0-1oOUixUnxj46q4QZAtf-ER9nxK2ogNwbJiZ7tD60kHB35KHSJRsgWNE7BqKlgRiML-6J7_mthl-mihP9K_',
+    imageUrl: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop',
     description: 'Modern neighborhood cafe ordering website featuring a live kitchen ticket display, customizable drink modifiers, fast mobile checkout, and instant inventory updates.',
     techStack: ['Next.js 14', 'Real-time Database', 'Tailwind CSS', 'Fast Hosting'],
     metrics: [
@@ -68,7 +65,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     clientUrl: 'https://landscapeswa.netlify.app',
     domain: 'landscapeswa.netlify.app',
     highlightBadge: '+320% Lead Growth',
-    imageUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=1126&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1558904541-efa8c19682e7?q=80&w=1200&auto=format&fit=crop',
     description: 'Interactive landscape planning and pricing calculator that allows homeowners and commercial clients to customize project scopes and receive instant price breakdowns.',
     techStack: ['React', 'Database Backend', 'PDF Generator', 'Form Routing'],
     metrics: [
@@ -100,7 +97,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'Interactive 3D & Audio',
     tag: 'webgl',
     highlightBadge: 'Silky 60 FPS',
-    imageUrl: 'https://lh3.googleusercontent.com/aida/AEtjO1UXAuCXyhz8YimvlG35Tp8oxOTU_RYxX0ZAfScuHDKIRP6TKJSKyATIMkvJufOvShAapIlahvfsjEjty2-JfRnOqtxJw3WVojknjdaQLYYmIPbLC6hj0VO9_P1l9qFIBvQmtaMs-TVZXacE7hHypj5KAG7R2zE-uCCXzdxIiDbWxVcr8IyE2mCOGpn7qtDwPDIB-UuxVu16Cj20I7YO1LkFJs13-LxHzgcz1PjlfhmMpekgX3lE3Y5faw',
+    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop',
     description: 'Ultra-smooth interactive slot game built directly in the browser with lively visual animations, dynamic sound effects, and verified fair random number logic.',
     techStack: ['3D Web Graphics', 'Fast Backend', 'Live WebSockets', 'Browser Audio'],
     metrics: [
@@ -135,7 +132,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'FinTech & Real-Time Data',
     tag: 'fintech',
     highlightBadge: 'Real-Time Price Ticks',
-    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageUrl: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop',
     description: 'Real-time stock and cryptocurrency paper trading simulator that streams live market price movements, matches buy/sell orders instantly, and calculates portfolio balances.',
     techStack: ['Node.js', 'Market APIs', 'Fast In-Memory Cache', 'Live Sockets'],
     metrics: [
@@ -171,7 +168,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'Social Networks & Media',
     tag: 'backend',
     highlightBadge: 'Fast Activity Feeds',
-    imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop',
     description: 'Scalable community web platform designed for fast activity feeds, automated video processing, user notifications, and instant post sharing.',
     techStack: ['NestJS', 'Cloud Storage', 'Background Workers', 'Docker', 'TypeScript'],
     metrics: [
@@ -275,7 +272,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'Financial Software',
     tag: 'fintech',
     highlightBadge: '100% Balanced Ledgers',
-    imageUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?q=80&w=1126&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop',
     description: 'Corporate double-entry bookkeeping and automated tax reconciliation software ensuring zero accounting errors and instant financial reports.',
     techStack: ['Node.js', 'PostgreSQL', 'Background Tasks', 'TypeScript'],
     metrics: [
@@ -354,12 +351,17 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Toggle state to open inline interactive sandbox widget per card
+  const [openInteractiveWidget, setOpenInteractiveWidget] = useState<string | null>(null);
 
   // --- Slot Machine State ---
   const [slotBalance, setSlotBalance] = useState(4890.00);
   const [slotStatus, setSlotStatus] = useState<'idle' | 'spinning' | 'won'>('idle');
   const [reels, setReels] = useState(['777', 'BAR', 'BAR']);
-  const [slotHash, setSlotHash] = useState('0x8f2d9c1a4e5b7f309a8c1e2b4d6f8a9e');
 
   const spinSlot = () => {
     if (slotStatus === 'spinning') return;
@@ -380,7 +382,6 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
         setReels(['777', '777', '777']);
         setSlotStatus('won');
         setSlotBalance(prev => prev + 250);
-        setSlotHash('0x' + Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join(''));
         sfx.winChime();
         setTimeout(() => setSlotStatus('idle'), 4000);
       }
@@ -390,14 +391,13 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
   // --- HFT Simulator Live Ticks ---
   const [btcPrice, setBtcPrice] = useState(46892.45);
   const [priceChange, setPriceChange] = useState('+1.34%');
-  const [matchedOrders, setMatchedOrders] = useState(14820);
   const [lastMatchLatency, setLastMatchLatency] = useState('3.8ms');
 
   useEffect(() => {
     const timer = setInterval(() => {
       const delta = (Math.random() - 0.49) * 14;
       setBtcPrice(prev => +(prev + delta).toFixed(2));
-      setMatchedOrders(prev => prev + Math.floor(Math.random() * 4) + 1);
+      setPriceChange(delta >= 0 ? `+${(1.3 + Math.random() * 0.1).toFixed(2)}%` : `-${(0.2 + Math.random() * 0.1).toFixed(2)}%`);
     }, 2400);
     return () => clearInterval(timer);
   }, []);
@@ -405,13 +405,11 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
   const handleSimulateOrder = () => {
     sfx.click();
     setLastMatchLatency((Math.random() * 2 + 2.1).toFixed(1) + 'ms');
-    setMatchedOrders(prev => prev + 1);
   };
 
   // --- Landscapes WA Scope Estimator Interactive State ---
   const [scopeSqFt, setScopeSqFt] = useState(3800);
-  const [finishTier, setFinishTier] = useState<'Standard' | 'Architectural' | 'Ultra-Luxury'>('Architectural');
-
+  const [finishTier] = useState<'Standard' | 'Architectural' | 'Ultra-Luxury'>('Architectural');
   const calculatedCost = Math.round(scopeSqFt * (finishTier === 'Standard' ? 240 : finishTier === 'Architectural' ? 380 : 560));
   const calculatedWeeks = Math.round(4 + (scopeSqFt / 1000) * (finishTier === 'Standard' ? 0.8 : finishTier === 'Architectural' ? 1.2 : 1.6));
 
@@ -420,15 +418,20 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
     (p) => filter === 'all' || p.tag === filter
   );
 
-  // Carousel scroll listeners
-  const updateScrollButtons = () => {
+  // Calculate active index from scroll
+  const updateScrollButtons = useCallback(() => {
     if (!carouselRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    setCanScrollLeft(scrollLeft > 15);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 15);
     const maxScroll = scrollWidth - clientWidth;
     setScrollProgress(maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0);
-  };
+
+    // Approximate active card
+    const cardWidth = 500;
+    const idx = Math.round(scrollLeft / cardWidth);
+    setActiveIndex(Math.min(filteredProjects.length - 1, Math.max(0, idx)));
+  }, [filteredProjects.length]);
 
   useEffect(() => {
     const el = carouselRef.current;
@@ -437,17 +440,53 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
       updateScrollButtons();
       return () => el.removeEventListener('scroll', updateScrollButtons);
     }
-  }, [filteredProjects]);
+  }, [updateScrollButtons, filteredProjects]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     sfx.click();
     if (!carouselRef.current) return;
-    const scrollAmount = 560;
-    carouselRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
+    const scrollAmount = 520;
+    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+    
+    if (direction === 'right' && scrollLeft >= scrollWidth - clientWidth - 20) {
+      // Loop back to beginning
+      carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carouselRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollToProjectIndex = (index: number) => {
+    sfx.click();
+    if (!carouselRef.current) return;
+    const scrollAmount = 520;
+    carouselRef.current.scrollTo({
+      left: index * scrollAmount,
       behavior: 'smooth'
     });
   };
+
+  // --- Smooth Auto-Carousel Animation Engine ---
+  useEffect(() => {
+    if (!isAutoPlay || isHovered) return;
+
+    const interval = setInterval(() => {
+      if (!carouselRef.current) return;
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+      const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 30;
+
+      if (isAtEnd) {
+        carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        carouselRef.current.scrollBy({ left: 480, behavior: 'smooth' });
+      }
+    }, 4200);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlay, isHovered]);
 
   return (
     <section id="works" className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 py-20 border-t border-[#2f273c]">
@@ -457,34 +496,65 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
           <div className="flex items-center gap-2 font-mono text-xs text-[#d8ff38]">
             <span>[ OUR PORTFOLIO ]</span>
             <span className="w-8 h-px bg-[#473b5b]"></span>
-            <span>LIVE PROJECTS &amp; CODE DEMOS</span>
+            <span>LIVE PROJECTS &amp; APPS</span>
           </div>
-          <h2 className="font-display font-bold text-3xl sm:text-5xl uppercase tracking-tight text-white">
+          <h2 className="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-white">
             EXPLORE OUR WORK.
           </h2>
         </div>
-        <div className="flex flex-col md:items-end gap-2">
+        <div className="flex flex-col md:items-end gap-3">
           <p className="text-sm font-mono text-[#9c93a8] max-w-md md:text-right">
-            Browse live websites, interactive platforms, and custom software engineered by Launchdrift.
+            Browse live websites, digital platforms, and custom software engineered by Launchdrift.
           </p>
-          {/* Navigation Buttons for Carousel */}
-          <div className="hidden sm:flex items-center gap-2 pt-2">
+          
+          {/* Animated Carousel Controls & Auto-slide Badge */}
+          <div className="flex items-center gap-3 pt-1">
             <button
-              onClick={() => handleScroll('left')}
-              disabled={!canScrollLeft}
-              className="p-2.5 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 disabled:hover:border-[#2f273c] transition-all"
-              aria-label="Scroll left"
+              onClick={() => {
+                sfx.click();
+                setIsAutoPlay(!isAutoPlay);
+              }}
+              className={`px-3 py-1.5 rounded-lg border font-mono text-xs flex items-center gap-2 transition-all cursor-pointer ${
+                isAutoPlay
+                  ? 'bg-[#d8ff38]/10 border-[#d8ff38] text-[#d8ff38] shadow-[0_0_15px_rgba(216,255,56,0.15)]'
+                  : 'bg-[#1a1423] border-[#2f273c] text-[#9c93a8] hover:text-white'
+              }`}
+              title="Toggle automatic carousel sliding"
             >
-              <ChevronLeft className="w-4 h-4" />
+              {isAutoPlay ? (
+                <>
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d8ff38] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d8ff38]"></span>
+                  </span>
+                  <span>Auto-Sliding Active</span>
+                  <Pause className="w-3 h-3 ml-1" />
+                </>
+              ) : (
+                <>
+                  <Play className="w-3 h-3 text-[#d8ff38]" />
+                  <span>Resume Auto-Slide</span>
+                </>
+              )}
             </button>
-            <button
-              onClick={() => handleScroll('right')}
-              disabled={!canScrollRight}
-              className="p-2.5 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 disabled:hover:border-[#2f273c] transition-all"
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+
+            <div className="hidden sm:flex items-center gap-1.5">
+              <button
+                onClick={() => handleScroll('left')}
+                disabled={!canScrollLeft}
+                className="p-2.5 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 disabled:hover:border-[#2f273c] transition-all cursor-pointer"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => handleScroll('right')}
+                className="p-2.5 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white transition-all cursor-pointer"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -502,7 +572,7 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
                   carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
                 }
               }}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all border ${
+              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all border cursor-pointer ${
                 filter === cat.id
                   ? 'bg-[#d8ff38] text-[#0a070e] font-bold border-[#d8ff38] shadow-[0_0_15px_rgba(216,255,56,0.2)]'
                   : 'bg-[#1a1423] text-[#9c93a8] border-[#2f273c] hover:border-[#473b5b] hover:text-white'
@@ -517,210 +587,252 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
       {/* Scroll Progress Bar */}
       <div className="w-full bg-[#1a1423] h-1 rounded-full overflow-hidden mt-4">
         <div
-          className="bg-[#d8ff38] h-full transition-all duration-200"
+          className="bg-[#d8ff38] h-full transition-all duration-300"
           style={{ width: `${Math.max(10, scrollProgress)}%` }}
         />
       </div>
 
       {/* ========================================================================= */}
-      {/* SCROLLABLE CAROUSEL CONTAINER                                             */}
+      {/* ANIMATING / SCROLLABLE CAROUSEL CONTAINER                                 */}
       {/* ========================================================================= */}
       <div
         ref={carouselRef}
-        className="flex gap-6 overflow-x-auto py-8 scroll-smooth snap-x snap-mandatory scrollbar-none"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={() => setIsHovered(true)}
+        onTouchEnd={() => setTimeout(() => setIsHovered(false), 2000)}
+        className="flex gap-6 overflow-x-auto py-8 scroll-smooth snap-x snap-mandatory scrollbar-none transition-all"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {filteredProjects.map((project, index) => (
-          <article
-            key={project.id}
-            className="w-[90vw] sm:w-[480px] lg:w-[540px] shrink-0 snap-start bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38]/60 transition-all duration-300 rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6 group hover:shadow-[0_0_30px_rgba(216,255,56,0.06)]"
-          >
-            <div className="flex flex-col gap-4">
-              {/* Card Header & Category */}
-              <div className="flex items-center justify-between gap-2">
-                <span className="font-mono text-xs text-[#d8ff38] uppercase font-bold flex items-center gap-1.5">
-                  <Terminal className="w-3.5 h-3.5" />
-                  {project.category}
-                </span>
-                {project.highlightBadge && (
-                  <span className="px-2.5 py-0.5 rounded bg-[#0a070e] text-[#ff6b35] font-mono text-[10px] uppercase font-bold border border-[#2f273c]">
-                    {project.highlightBadge}
+        {filteredProjects.map((project, index) => {
+          const isWidgetOpen = openInteractiveWidget === project.id;
+          return (
+            <article
+              key={project.id}
+              className="w-[88vw] sm:w-[480px] lg:w-[520px] shrink-0 snap-start bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38]/60 transition-all duration-300 rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6 group hover:shadow-[0_0_35px_rgba(216,255,56,0.08)] hover:-translate-y-1"
+            >
+              <div className="flex flex-col gap-4">
+                {/* Card Header & Category */}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-xs text-[#d8ff38] uppercase font-bold flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5" />
+                    {project.category}
                   </span>
-                )}
-              </div>
+                  {project.highlightBadge && (
+                    <span className="px-2.5 py-0.5 rounded bg-[#0a070e] text-[#ff6b35] font-mono text-[10px] uppercase font-bold border border-[#2f273c]">
+                      {project.highlightBadge}
+                    </span>
+                  )}
+                </div>
 
-              {/* Visual Media / Preview Box */}
-              {project.interactiveType === 'slot' ? (
-                /* Interactive Slot Machine Card Preview */
-                <div className="w-full rounded-xl overflow-hidden border border-[#2f273c] bg-[#0a070e] p-4 flex flex-col gap-3 font-mono text-xs">
-                  <div className="grid grid-cols-3 gap-2">
-                    {reels.map((symbol, i) => (
-                      <div
-                        key={i}
-                        className={`h-14 rounded-lg bg-[#130e1b] border flex items-center justify-center font-display font-black text-base transition-all ${
-                          slotStatus === 'won'
-                            ? 'border-[#d8ff38] text-[#d8ff38] shadow-[0_0_10px_rgba(216,255,56,0.3)] animate-pulse'
-                            : slotStatus === 'spinning'
-                            ? 'border-[#ff6b35] text-[#ff6b35]'
-                            : 'border-[#2f273c] text-white'
-                        }`}
-                      >
-                        {symbol}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-between pt-1 border-t border-[#2f273c]">
-                    <span className="text-[10px] text-[#9c93a8]">DEMO CREDITS: <strong className="text-[#d8ff38]">${slotBalance.toFixed(2)}</strong></span>
-                    <button
-                      disabled={slotStatus === 'spinning'}
-                      onClick={spinSlot}
-                      className="px-3 py-1 rounded bg-[#d8ff38] text-[#0a070e] font-bold text-[10px] uppercase hover:brightness-110 active:scale-95 transition-all flex items-center gap-1"
-                    >
-                      <RotateCw className={`w-3 h-3 ${slotStatus === 'spinning' ? 'animate-spin' : ''}`} />
-                      <span>{slotStatus === 'spinning' ? 'Spinning...' : 'Test Spin Simulation'}</span>
-                    </button>
-                  </div>
-                </div>
-              ) : project.interactiveType === 'landscape' ? (
-                /* Interactive Landscapes WA Estimator Preview */
-                <div className="w-full rounded-xl overflow-hidden border border-[#2f273c] bg-[#0a070e] p-4 flex flex-col gap-2.5 font-mono text-xs">
-                  <div className="flex items-center justify-between text-[10px]">
-                    <span className="text-[#9c93a8]">PROJECT AREA: {scopeSqFt.toLocaleString()} sq ft</span>
-                    <span className="text-[#d8ff38] font-bold">${calculatedCost.toLocaleString()} EST.</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1500"
-                    max="8000"
-                    step="250"
-                    value={scopeSqFt}
-                    onChange={(e) => { sfx.tick(); setScopeSqFt(Number(e.target.value)); }}
-                    className="w-full accent-[#d8ff38] cursor-pointer"
-                  />
-                  <div className="flex items-center justify-between text-[10px] text-[#9c93a8]">
-                    <span>Timeline: <strong className="text-white">~{calculatedWeeks} Weeks</strong></span>
-                    <span className="text-[#ff6b35] font-bold">Interactive Calculator</span>
-                  </div>
-                </div>
-              ) : project.interactiveType === 'hft' ? (
-                /* Interactive HFT Ticker Card Preview */
-                <div className="w-full rounded-xl overflow-hidden border border-[#2f273c] bg-[#0a070e] p-4 flex flex-col gap-2 font-mono text-xs">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#d8ff38] animate-ping" />
-                      <span className="text-white font-bold">BTC: ${btcPrice.toLocaleString()}</span>
-                    </div>
-                    <span className="text-[#d8ff38] font-bold">{priceChange}</span>
-                  </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-[#2f273c]">
-                    <span className="text-[10px] text-[#9c93a8]">Execution: <strong className="text-[#ff6b35]">&lt; {lastMatchLatency}</strong></span>
-                    <button
-                      onClick={handleSimulateOrder}
-                      className="px-2.5 py-0.5 rounded bg-[#241d30] text-[#d8ff38] text-[9px] font-bold uppercase hover:bg-[#30273f]"
-                    >
-                      Test Order
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                /* Standard Image Mockup */
-                <div className="aspect-[16/9] w-full rounded-xl overflow-hidden border border-[#2f273c] bg-[#0a070e] relative group-hover:border-[#473b5b] transition-all">
+                {/* Visual Media Preview Image (For EVERY Project) */}
+                <div className="aspect-[16/9] w-full rounded-xl overflow-hidden border border-[#2f273c] bg-[#0a070e] relative group-hover:border-[#473b5b] transition-all group/img">
                   <img
                     alt={project.title}
                     src={project.imageUrl}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a070e]/80 via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a070e] via-transparent to-transparent opacity-80" />
+
+                  {/* Featured Metric Overlay */}
                   {project.featuredMetric && (
-                    <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded bg-[#0a070e]/90 border border-[#2f273c] font-mono text-[10px] text-[#d8ff38]">
-                      {project.featuredMetric.label}: <strong className="text-white">{project.featuredMetric.val}</strong>
+                    <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-[#0a070e]/90 backdrop-blur-md border border-[#2f273c] font-mono text-[10px] text-[#d8ff38] shadow-lg flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3 text-[#d8ff38]" />
+                      <span>{project.featuredMetric.label}:</span>
+                      <strong className="text-white">{project.featuredMetric.val}</strong>
                     </div>
                   )}
+
+                  {/* Interactive Mini-Widget Toggle (For slot, landscape, hft) */}
+                  {project.interactiveType && (
+                    <button
+                      onClick={() => {
+                        sfx.click();
+                        setOpenInteractiveWidget(isWidgetOpen ? null : project.id);
+                      }}
+                      className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-[#1a1423]/90 backdrop-blur-md border border-[#d8ff38]/60 text-[#d8ff38] font-mono text-[10px] font-bold flex items-center gap-1 hover:bg-[#d8ff38] hover:text-[#0a070e] transition-all shadow-md cursor-pointer"
+                    >
+                      <Sliders className="w-3 h-3" />
+                      <span>{isWidgetOpen ? 'Hide Sandbox' : 'Try Live Sandbox'}</span>
+                    </button>
+                  )}
                 </div>
-              )}
 
-              {/* Title & Domain */}
-              <div className="flex flex-col gap-1 pt-1">
-                <h3 className="font-display font-bold text-xl sm:text-2xl text-white group-hover:text-[#d8ff38] transition-colors leading-snug">
-                  {project.title}
-                </h3>
-                {project.domain && (
-                  <span className="font-mono text-xs text-[#ff6b35]">{project.domain}</span>
+                {/* Optional Expandable Live Interactive Widget */}
+                {isWidgetOpen && project.interactiveType === 'slot' && (
+                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-4 flex flex-col gap-3 font-mono text-xs animate-fadeIn shadow-lg">
+                    <div className="grid grid-cols-3 gap-2">
+                      {reels.map((symbol, i) => (
+                        <div
+                          key={i}
+                          className={`h-12 rounded-lg bg-[#130e1b] border flex items-center justify-center font-display font-black text-sm transition-all ${
+                            slotStatus === 'won'
+                              ? 'border-[#d8ff38] text-[#d8ff38] shadow-[0_0_10px_rgba(216,255,56,0.3)] animate-pulse'
+                              : slotStatus === 'spinning'
+                              ? 'border-[#ff6b35] text-[#ff6b35]'
+                              : 'border-[#2f273c] text-white'
+                          }`}
+                        >
+                          {symbol}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between pt-1 border-t border-[#2f273c]">
+                      <span className="text-[10px] text-[#9c93a8]">DEMO CREDITS: <strong className="text-[#d8ff38]">${slotBalance.toFixed(2)}</strong></span>
+                      <button
+                        disabled={slotStatus === 'spinning'}
+                        onClick={spinSlot}
+                        className="px-3 py-1 rounded bg-[#d8ff38] text-[#0a070e] font-bold text-[10px] uppercase hover:brightness-110 active:scale-95 transition-all flex items-center gap-1 cursor-pointer"
+                      >
+                        <RotateCw className={`w-3 h-3 ${slotStatus === 'spinning' ? 'animate-spin' : ''}`} />
+                        <span>{slotStatus === 'spinning' ? 'Spinning...' : 'Spin Simulation'}</span>
+                      </button>
+                    </div>
+                  </div>
                 )}
-              </div>
 
-              {/* Description */}
-              <p className="text-sm text-[#9c93a8] leading-relaxed line-clamp-3">
-                {project.description}
-              </p>
-
-              {/* Tech Stack Pills */}
-              <div className="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2.5 py-0.5 rounded bg-[#0a070e] border border-[#2f273c] text-[#eadff1]"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Card Footer Actions */}
-            <div className="pt-4 border-t border-[#2f273c]/70 flex items-center justify-between font-mono text-xs">
-              <button
-                onClick={() => {
-                  sfx.click();
-                  setSelectedProject(project);
-                }}
-                className="inline-flex items-center gap-1.5 text-[#d8ff38] hover:underline font-semibold"
-              >
-                <span>Read Project Story</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-
-              <div className="flex items-center gap-3">
-                {project.clientUrl && (
-                  <a
-                    className="inline-flex items-center gap-1 text-white hover:text-[#d8ff38] transition-colors"
-                    href={project.clientUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    onClick={() => sfx.click()}
-                  >
-                    <span>Visit Live Site</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                {isWidgetOpen && project.interactiveType === 'landscape' && (
+                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-4 flex flex-col gap-2.5 font-mono text-xs animate-fadeIn shadow-lg">
+                    <div className="flex items-center justify-between text-[10px]">
+                      <span className="text-[#9c93a8]">ESTIMATED AREA: {scopeSqFt.toLocaleString()} sq ft</span>
+                      <span className="text-[#d8ff38] font-bold">${calculatedCost.toLocaleString()} EST.</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="1500"
+                      max="8000"
+                      step="250"
+                      value={scopeSqFt}
+                      onChange={(e) => { sfx.tick(); setScopeSqFt(Number(e.target.value)); }}
+                      className="w-full accent-[#d8ff38] cursor-pointer"
+                    />
+                    <div className="flex items-center justify-between text-[10px] text-[#9c93a8]">
+                      <span>Estimated Timeline: <strong className="text-white">~{calculatedWeeks} Weeks</strong></span>
+                      <span className="text-[#ff6b35] font-bold">Interactive Calculator</span>
+                    </div>
+                  </div>
                 )}
+
+                {isWidgetOpen && project.interactiveType === 'hft' && (
+                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-4 flex flex-col gap-2 font-mono text-xs animate-fadeIn shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#d8ff38] animate-ping" />
+                        <span className="text-white font-bold">BTC: ${btcPrice.toLocaleString()}</span>
+                      </div>
+                      <span className="text-[#d8ff38] font-bold">{priceChange}</span>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t border-[#2f273c]">
+                      <span className="text-[10px] text-[#9c93a8]">Execution Latency: <strong className="text-[#ff6b35]">&lt; {lastMatchLatency}</strong></span>
+                      <button
+                        onClick={handleSimulateOrder}
+                        className="px-2.5 py-1 rounded bg-[#241d30] text-[#d8ff38] text-[10px] font-bold uppercase hover:bg-[#30273f] cursor-pointer"
+                      >
+                        Test Instant Order
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Title & Domain */}
+                <div className="flex flex-col gap-1 pt-1">
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-white group-hover:text-[#d8ff38] transition-colors leading-snug">
+                    {project.title}
+                  </h3>
+                  {project.domain && (
+                    <span className="font-mono text-xs text-[#ff6b35]">{project.domain}</span>
+                  )}
+                </div>
+
+                {/* Description in Layman Terms */}
+                <p className="text-sm text-[#9c93a8] leading-relaxed line-clamp-3">
+                  {project.description}
+                </p>
+
+                {/* Tech Stack Pills */}
+                <div className="flex flex-wrap gap-1.5 pt-1 font-mono text-[11px]">
+                  {project.techStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-0.5 rounded bg-[#0a070e] border border-[#2f273c] text-[#eadff1]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+
+              {/* Card Footer Actions */}
+              <div className="pt-4 border-t border-[#2f273c]/70 flex items-center justify-between font-mono text-xs">
+                <button
+                  onClick={() => {
+                    sfx.click();
+                    setSelectedProject(project);
+                  }}
+                  className="inline-flex items-center gap-1.5 text-[#d8ff38] hover:underline font-semibold cursor-pointer"
+                >
+                  <span>Read Project Story</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+
+                <div className="flex items-center gap-3">
+                  {project.clientUrl && (
+                    <a
+                      className="inline-flex items-center gap-1 text-white hover:text-[#d8ff38] transition-colors"
+                      href={project.clientUrl}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      onClick={() => sfx.click()}
+                    >
+                      <span>Visit Live Site</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
-      {/* Bottom Carousel Controls */}
-      <div className="flex items-center justify-between pt-4 border-t border-[#2f273c]/50 font-mono text-xs text-[#9c93a8]">
+      {/* Interactive Pagination Dots & Status Bar */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#2f273c]/50 font-mono text-xs text-[#9c93a8]">
         <div className="flex items-center gap-2">
           <span>SHOWING: <strong className="text-white">{filteredProjects.length} Projects</strong></span>
           <span className="text-[#473b5b]">|</span>
-          <span className="text-[#d8ff38]">Swipe or click arrows to explore</span>
+          <span className="text-[#d8ff38]">Hover to pause • Swipe or click to slide</span>
         </div>
 
+        {/* Dot Indicators */}
+        <div className="flex items-center gap-1.5">
+          {filteredProjects.map((p, idx) => (
+            <button
+              key={p.id}
+              onClick={() => scrollToProjectIndex(idx)}
+              className={`h-2 rounded-full transition-all cursor-pointer ${
+                activeIndex === idx
+                  ? 'w-6 bg-[#d8ff38]'
+                  : 'w-2 bg-[#2f273c] hover:bg-[#473b5b]'
+              }`}
+              aria-label={`Jump to project ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Prev / Next Bottom Controls */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => handleScroll('left')}
             disabled={!canScrollLeft}
-            className="p-2 rounded bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 transition-all"
+            className="p-2 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 transition-all cursor-pointer"
             aria-label="Previous project"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleScroll('right')}
-            disabled={!canScrollRight}
-            className="p-2 rounded bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 transition-all"
+            className="p-2 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white transition-all cursor-pointer"
             aria-label="Next project"
           >
             <ChevronRight className="w-4 h-4" />
