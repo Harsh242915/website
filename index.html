@@ -74,7 +74,13 @@
     </script>
   </head>
   <body class="bg-[#0a070e] text-[#eadff1] antialiased selection:bg-[#d8ff38] selection:text-[#0a070e]">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static Crawler Fallback for Instant SEO Indexing -->
+      <header class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;">
+        <h1>Launchdrift Studio — Bespoke MVP Architecture &amp; Digital Product Engineering</h1>
+        <p>We engineer full-stack MVPs and high-converting client platforms with the architecture of a Series B product. Deployed in 10-14 days.</p>
+      </header>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
