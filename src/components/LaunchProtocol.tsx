@@ -2,84 +2,84 @@ import { useState } from 'react';
 import { Calendar, GitBranch, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 import { sfx } from '../lib/audio';
 
-const WEEKS = [
+const PHASES = [
   {
-    week: 'WEEK 01',
-    phase: 'BLUEPRINT & DATA SCHEMA',
-    days: 'DAYS 01–07',
-    summary: 'Tech specification document, normalized relational schema (PostgreSQL/Supabase), authentication architecture, interactive Figma/UI component design system, and CI/CD staging environments provisioned.',
+    phase: 'PHASE 01',
+    title: 'Product Scope & Design',
+    timeframe: 'Weeks 1–2',
+    summary: 'We clarify your product requirements, plan the database and user workflows, design clean screens, and set up your project foundation so there are no surprises later.',
     deliverables: [
-      'Relational ERD diagrams & database migration scripts',
-      'Row Level Security (RLS) policies & access token logic',
-      'Cloudflare DNS & automated Staging build pipeline',
-      'Design tokens and typography pairing lock-in',
+      'Complete product feature plan & timeline',
+      'Database structure & user account setup',
+      'Screen designs and user interface wireframes',
+      'Staging environment setup for previewing progress',
     ],
-    artifacts: ['01_schema.sql', '02_auth_rules.ts', '03_tokens.json'],
+    artifacts: ['Project Scope Doc', 'Database Blueprint', 'Design System'],
     accent: 'border-[#d8ff38] text-[#d8ff38]',
     bgBadge: 'bg-[#d8ff38]/10 text-[#d8ff38]',
   },
   {
-    week: 'WEEK 02',
-    phase: 'FRONTEND SURFACES & STATE',
-    days: 'DAYS 08–14',
-    summary: 'Implementation of all core views with Next.js 14 App Router, client/server state synchronisation via TanStack Query/Zustand, responsive interactive layouts, edge-optimized asset pipelines, and real-time socket connections.',
+    phase: 'PHASE 02',
+    title: 'Core Development & Features',
+    timeframe: 'Weeks 3–5',
+    summary: 'We build your application from the ground up — developing user accounts, interactive dashboards, real-time features, and responsive layouts that look great on both phone and desktop.',
     deliverables: [
-      'Next.js 14 App Router layout with Server Components',
-      'Dynamic WebGL canvas or WebAudio engine integration',
-      'Bi-directional WebSocket channels & state sync',
-      'Mobile-first touch target audits (44px+ compliance)',
+      'Interactive frontend with modern navigation',
+      'Secure backend API & database connection',
+      'Payment processing & checkout integration (Stripe)',
+      'Mobile-friendly responsive design testing',
     ],
-    artifacts: ['app/page.tsx', 'lib/socket.ts', 'components/canvas/'],
+    artifacts: ['Web App Core', 'API Services', 'Database Queries'],
     accent: 'border-[#ff6b35] text-[#ff6b35]',
     bgBadge: 'bg-[#ff6b35]/10 text-[#ff6b35]',
   },
   {
-    week: 'WEEK 03',
-    phase: 'INTEGRATION, AUDIT & DEPLOY',
-    days: 'DAYS 15–21',
-    summary: 'End-to-end payment gateway (Stripe) and third-party webhook integrations, Playwright automated regression testing, full Lighthouse Core Web Vitals audit (100 score target), production DNS cutover, and complete repository transfer.',
+    phase: 'PHASE 03',
+    title: 'Testing, Launch & Handoff',
+    timeframe: 'Weeks 6+',
+    summary: 'We thoroughly test every button, flow, and payment before going live. Once approved, we connect your custom domain, transfer 100% of the code to you, and provide 30 days of warranty support.',
     deliverables: [
-      'Stripe Billing / Terminal webhook verification',
-      'Full Playwright end-to-end regression test suite',
-      'Lighthouse 100 audit pass on desktop & mobile',
-      '100% IP ownership & private GitHub repo handoff',
+      'Comprehensive testing across browsers and phones',
+      'Payment verification and live transactions test',
+      'Live domain setup and production deployment',
+      'Complete code handoff & 30-day bug fix support',
     ],
-    artifacts: ['playwright.config.ts', 'stripe.webhook.ts', 'dist/bundle'],
+    artifacts: ['Test Reports', 'Live Production Setup', '100% Code Handoff'],
     accent: 'border-[#38bdf8] text-[#38bdf8]',
     bgBadge: 'bg-[#38bdf8]/10 text-[#38bdf8]',
   },
 ];
 
 export function LaunchProtocol() {
-  const [selectedWeek, setSelectedWeek] = useState(0);
+  const [selectedPhase, setSelectedPhase] = useState(0);
 
   return (
     <section id="sprint-protocol" className="w-full max-w-[1360px] mx-auto px-4 sm:px-8 py-20 border-t border-[#2f273c]">
       {/* Header */}
       <div className="flex flex-col gap-2 pb-8 border-b border-[#2f273c]">
         <div className="flex items-center gap-2 font-mono text-xs text-[#d8ff38]">
-          <span>[ EXECUTION LIFECYCLE ]</span>
+          <span>[ HOW WE WORK ]</span>
           <span className="w-8 h-px bg-[#473b5b]"></span>
-          <span>SPRINT METHODOLOGY</span>
+          <span>STEP-BY-STEP PROCESS</span>
         </div>
         <h2 className="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-white">
-          THE 3-WEEK LAUNCH PROTOCOL.
+          OUR DEVELOPMENT PROCESS.
         </h2>
         <p className="text-sm font-mono text-[#9c93a8] max-w-2xl pt-1">
-          We execute with ruthless velocity. Every sprint is time-boxed, scope-locked, and fully dedicated to your build.
+          A clear, structured path from concept to a live working product. No guesswork, no hidden delays, and weekly progress updates.
         </p>
       </div>
 
-      {/* Week Selector Grid */}
+      {/* Phase Selector Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-        {WEEKS.map((item, index) => {
-          const isSelected = selectedWeek === index;
+        {PHASES.map((item, index) => {
+          const isSelected = selectedPhase === index;
           return (
             <div
-              key={item.week}
+              key={item.phase}
               onClick={() => {
                 sfx.click();
-                setSelectedWeek(index);
+                setSelectedPhase(index);
               }}
               className={`p-6 rounded-xl border transition-all cursor-pointer flex flex-col justify-between gap-6 ${
                 isSelected
@@ -89,11 +89,11 @@ export function LaunchProtocol() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between font-mono text-xs">
-                  <span className={`px-2.5 py-0.5 rounded font-bold ${item.bgBadge}`}>{item.week}</span>
-                  <span className="text-[#9c93a8]">{item.days}</span>
+                  <span className={`px-2.5 py-0.5 rounded font-bold ${item.bgBadge}`}>{item.phase}</span>
+                  <span className="text-[#9c93a8]">{item.timeframe}</span>
                 </div>
                 <h3 className="font-display font-bold text-lg text-white">
-                  {item.phase}
+                  {item.title}
                 </h3>
                 <p className="text-xs text-[#9c93a8] leading-relaxed">
                   {item.summary}
@@ -101,9 +101,9 @@ export function LaunchProtocol() {
               </div>
 
               <div className="pt-4 border-t border-[#2f273c] flex items-center justify-between font-mono text-[11px]">
-                <span className="text-[#9c93a8]">{item.deliverables.length} Key Milestones</span>
+                <span className="text-[#9c93a8]">{item.deliverables.length} Key Deliverables</span>
                 <span className={`flex items-center gap-1 font-semibold ${isSelected ? 'text-[#d8ff38]' : 'text-[#9c93a8]'}`}>
-                  <span>Inspect</span>
+                  <span>View Details</span>
                   <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
@@ -112,7 +112,7 @@ export function LaunchProtocol() {
         })}
       </div>
 
-      {/* Detailed Phase Deep-Dive Drawer */}
+      {/* Detailed Phase Deep-Dive */}
       <div className="mt-8 bg-[#1a1423] border border-[#2f273c] rounded-xl p-6 sm:p-8 flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#2f273c]">
           <div className="flex items-center gap-3">
@@ -121,26 +121,26 @@ export function LaunchProtocol() {
             </div>
             <div>
               <span className="font-mono text-xs text-[#d8ff38] font-bold">
-                PHASE DEEP-DIVE // {WEEKS[selectedWeek].week}
+                PHASE DETAILS // {PHASES[selectedPhase].phase}
               </span>
               <h4 className="font-display font-bold text-xl text-white">
-                {WEEKS[selectedWeek].phase} ({WEEKS[selectedWeek].days})
+                {PHASES[selectedPhase].title} ({PHASES[selectedPhase].timeframe})
               </h4>
             </div>
           </div>
 
           <div className="flex items-center gap-2 font-mono text-xs text-[#9c93a8]">
-            <GitBranch className="w-4 h-4 text-[#ff6b35]" />
-            <span>COMMITS TAGGED: <strong className="text-white">SPRINT_REL_v1</strong></span>
+            <GitBranch className="w-4 h-4 text-[#d8ff38]" />
+            <span>PROGRESS: <strong className="text-white">WEEKLY WORKING DEMOS</strong></span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Deliverables checklist */}
           <div className="lg:col-span-7 space-y-3">
-            <span className="font-mono text-xs text-[#9c93a8] uppercase">CORE DELIVERABLES &amp; GATES</span>
+            <span className="font-mono text-xs text-[#9c93a8] uppercase">WHAT WE DELIVER IN THIS PHASE</span>
             <div className="space-y-2.5">
-              {WEEKS[selectedWeek].deliverables.map((d, i) => (
+              {PHASES[selectedPhase].deliverables.map((d, i) => (
                 <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-[#0a070e] border border-[#2f273c] text-xs text-[#eadff1] font-mono">
                   <CheckCircle2 className="w-4 h-4 text-[#d8ff38] shrink-0" />
                   <span>{d}</span>
@@ -152,12 +152,12 @@ export function LaunchProtocol() {
           {/* Generated Artifacts */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-4 bg-[#0a070e] p-5 rounded-lg border border-[#2f273c] font-mono text-xs">
             <div className="space-y-3">
-              <span className="text-[#9c93a8] uppercase text-[11px]">GENERATED GIT ARTIFACTS</span>
+              <span className="text-[#9c93a8] uppercase text-[11px]">DELIVERABLE ASSETS</span>
               <div className="space-y-2">
-                {WEEKS[selectedWeek].artifacts.map((art, i) => (
+                {PHASES[selectedPhase].artifacts.map((art, i) => (
                   <div key={i} className="flex items-center justify-between text-[#eadff1] bg-[#130e1b] px-3 py-2 rounded border border-[#2f273c]">
                     <span>{art}</span>
-                    <span className="text-[10px] text-[#38bdf8]">VERIFIED</span>
+                    <span className="text-[10px] text-[#38bdf8]">INCLUDED</span>
                   </div>
                 ))}
               </div>
@@ -166,14 +166,14 @@ export function LaunchProtocol() {
             <div className="pt-3 border-t border-[#2f273c] flex items-center justify-between text-[11px] text-[#9c93a8]">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-[#d8ff38]" />
-                <span>Zero Technical Debt Certified</span>
+                <span>100% Code Ownership</span>
               </span>
               <a
                 href="#discovery"
                 onClick={() => sfx.click()}
                 className="text-[#d8ff38] hover:underline font-bold"
               >
-                Reserve Week →
+                Plan Your Project →
               </a>
             </div>
           </div>

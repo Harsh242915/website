@@ -1,20 +1,32 @@
+export interface ProjectMetric {
+  label: string;
+  value: string;
+}
+
 export interface ProjectArtifact {
-  id: string;
+  id: string | number;
   title: string;
   category: string;
+  tag: 'all' | 'backend' | 'realtime' | 'fintech' | 'ai' | 'fullstack' | 'webgl';
   clientUrl?: string;
   domain?: string;
   imageUrl?: string;
   description: string;
-  tags: string[];
-  metrics: {
-    label1: string;
-    val1: string;
-    label2: string;
-    val2: string;
+  techStack: string[];
+  metrics: string[];
+  featuredMetric?: {
+    label: string;
+    val: string;
   };
   highlightBadge?: string;
-  type: 'standard' | 'interactive-slot' | 'interactive-benchmark' | 'interactive-hft';
+  accentColor?: string;
+  fullDetails?: {
+    overview: string;
+    architecture: string[];
+    metrics: string[];
+    techStack: string[];
+  };
+  interactiveType?: 'slot' | 'benchmark' | 'hft' | 'landscape';
 }
 
 export interface ArchitectureNode {

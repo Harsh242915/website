@@ -16,7 +16,7 @@ import { ArchitectureModal } from './components/ArchitectureModal';
 
 export default function App() {
   const [architectureModalOpen, setArchitectureModalOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<string>('High-Scale Performance Pod (3–5 Weeks)');
+  const [selectedTier, setSelectedTier] = useState<string>('Custom Full-Stack Platform (6–10 Weeks)');
   const [selectedSpecs, setSelectedSpecs] = useState<string>('');
 
   const handleSelectTier = (tierName: string, specs?: string) => {

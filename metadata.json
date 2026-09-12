@@ -1,6 +1,6 @@
 {
   "name": "Launchdrift — Bespoke MVP Architecture Studio",
-  "description": "We engineer full-stack MVPs with the architecture of a Series B product. Led by Harsh Bali & principal engineering crew.",
+  "description": "We engineer full-stack MVPs with the architecture of a Series B product. Built by Launchdrift principal systems architecture pod.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
