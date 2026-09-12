@@ -1,14 +1,11 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react';
 import {
   ExternalLink,
-  ChevronLeft,
-  ChevronRight,
   RotateCw,
   Play,
   Pause,
   ArrowRight,
   Terminal,
-  Activity,
   Sliders,
   Sparkles
 } from 'lucide-react';
@@ -20,6 +17,7 @@ interface WorksSectionProps {
   onOpenArchitecture: () => void;
 }
 
+const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop';
 const REEL_SYMBOLS = ['777', 'BAR', 'NEON', 'CYBER', 'JACKPOT', 'GEM', 'BOLT'];
 
 export const ALL_PROJECTS: ProjectArtifact[] = [
@@ -65,7 +63,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     clientUrl: 'https://landscapeswa.netlify.app',
     domain: 'landscapeswa.netlify.app',
     highlightBadge: '+320% Lead Growth',
-    imageUrl: 'https://images.unsplash.com/photo-1558904541-efa8c19682e7?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop',
     description: 'Interactive landscape planning and pricing calculator that allows homeowners and commercial clients to customize project scopes and receive instant price breakdowns.',
     techStack: ['React', 'Database Backend', 'PDF Generator', 'Form Routing'],
     metrics: [
@@ -203,7 +201,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'Enterprise Management Platform',
     tag: 'backend',
     highlightBadge: '99.9% Uptime',
-    imageUrl: 'https://res.cloudinary.com/dfpmkus1i/image/upload/v1750510926/Screenshot_2025-06-21_183123_np00fe.png',
+    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop',
     description: 'Operational compliance and safety management software helping organizations track safety audits, coordinate emergency responses, and manage team permissions.',
     techStack: ['Node.js', 'PostgreSQL', 'Event Queues', 'Docker Containers'],
     metrics: [
@@ -238,7 +236,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'E-Commerce & Live Messaging',
     tag: 'realtime',
     highlightBadge: '10k+ Live Users',
-    imageUrl: 'https://play-lh.googleusercontent.com/pvFaO3WzNzIYDQFpLiXu5WnoPnydI4aU5-XV7xYg_fUpFLZQylmZsdq0Dhjry11MofQ=w1052-h592-rw',
+    imageUrl: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?q=80&w=1200&auto=format&fit=crop',
     description: 'Online marketplace platform connecting buyers and sellers in real time with smart item matching, instant live chat, and instant push notifications.',
     techStack: ['Node.js', 'Socket.IO', 'MongoDB', 'Push Notifications'],
     metrics: [
@@ -306,7 +304,7 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     category: 'AI & Smart Applications',
     tag: 'ai',
     highlightBadge: '5,000+ Daily Users',
-    imageUrl: 'https://res.cloudinary.com/dfpmkus1i/image/upload/v1750512204/Screenshot_2025-06-21_185303_anrzsz.png',
+    imageUrl: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=1200&auto=format&fit=crop',
     description: 'Context-aware mental health and philosophical companion using smart AI to provide thoughtful, personalized emotional guidance and daily reflections.',
     techStack: ['Node.js', 'AI Embeddings', 'Database', 'Streaming Chat'],
     metrics: [
@@ -348,12 +346,13 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
   const [filter, setFilter] = useState<string>('all');
   const [selectedProject, setSelectedProject] = useState<ProjectArtifact | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Mouse Drag to Scroll State
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragStartScrollLeft, setDragStartScrollLeft] = useState(0);
 
   // Toggle state to open inline interactive sandbox widget per card
   const [openInteractiveWidget, setOpenInteractiveWidget] = useState<string | null>(null);
@@ -388,105 +387,67 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
     }, 90);
   };
 
-  // --- HFT Simulator Live Ticks ---
-  const [btcPrice, setBtcPrice] = useState(46892.45);
-  const [priceChange, setPriceChange] = useState('+1.34%');
-  const [lastMatchLatency, setLastMatchLatency] = useState('3.8ms');
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const delta = (Math.random() - 0.49) * 14;
-      setBtcPrice(prev => +(prev + delta).toFixed(2));
-      setPriceChange(delta >= 0 ? `+${(1.3 + Math.random() * 0.1).toFixed(2)}%` : `-${(0.2 + Math.random() * 0.1).toFixed(2)}%`);
-    }, 2400);
-    return () => clearInterval(timer);
-  }, []);
-
-  const handleSimulateOrder = () => {
-    sfx.click();
-    setLastMatchLatency((Math.random() * 2 + 2.1).toFixed(1) + 'ms');
-  };
-
   // --- Landscapes WA Scope Estimator Interactive State ---
   const [scopeSqFt, setScopeSqFt] = useState(3800);
-  const [finishTier] = useState<'Standard' | 'Architectural' | 'Ultra-Luxury'>('Architectural');
-  const calculatedCost = Math.round(scopeSqFt * (finishTier === 'Standard' ? 240 : finishTier === 'Architectural' ? 380 : 560));
-  const calculatedWeeks = Math.round(4 + (scopeSqFt / 1000) * (finishTier === 'Standard' ? 0.8 : finishTier === 'Architectural' ? 1.2 : 1.6));
+  const calculatedCost = Math.round(scopeSqFt * 380);
+  const calculatedWeeks = Math.round(4 + (scopeSqFt / 1000) * 1.2);
 
   // Filtered projects
   const filteredProjects = ALL_PROJECTS.filter(
     (p) => filter === 'all' || p.tag === filter
   );
 
-  // Calculate active index from scroll
-  const updateScrollButtons = useCallback(() => {
-    if (!carouselRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    setCanScrollLeft(scrollLeft > 15);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 15);
-    const maxScroll = scrollWidth - clientWidth;
-    setScrollProgress(maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0);
+  const hasEnoughForAnimation = filteredProjects.length >= 3;
+  const shouldAnimate = hasEnoughForAnimation && isAutoPlay;
 
-    // Approximate active card
-    const cardWidth = 500;
-    const idx = Math.round(scrollLeft / cardWidth);
-    setActiveIndex(Math.min(filteredProjects.length - 1, Math.max(0, idx)));
-  }, [filteredProjects.length]);
+  // Duplicate list ONLY when there are >= 3 items to create seamless loop
+  const displayProjects = hasEnoughForAnimation
+    ? [...filteredProjects, ...filteredProjects, ...filteredProjects]
+    : filteredProjects;
 
+  // --- 60 FPS Continuous Right-to-Left Animation Engine ---
   useEffect(() => {
-    const el = carouselRef.current;
-    if (el) {
-      el.addEventListener('scroll', updateScrollButtons, { passive: true });
-      updateScrollButtons();
-      return () => el.removeEventListener('scroll', updateScrollButtons);
-    }
-  }, [updateScrollButtons, filteredProjects]);
+    if (!shouldAnimate) return;
 
-  const handleScroll = (direction: 'left' | 'right') => {
-    sfx.click();
-    if (!carouselRef.current) return;
-    const scrollAmount = 520;
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    
-    if (direction === 'right' && scrollLeft >= scrollWidth - clientWidth - 20) {
-      // Loop back to beginning
-      carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      carouselRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
+    let animId: number;
 
-  const scrollToProjectIndex = (index: number) => {
-    sfx.click();
-    if (!carouselRef.current) return;
-    const scrollAmount = 520;
-    carouselRef.current.scrollTo({
-      left: index * scrollAmount,
-      behavior: 'smooth'
-    });
-  };
+    const tick = () => {
+      if (carouselRef.current && !isHovered && !isDragging) {
+        const el = carouselRef.current;
+        el.scrollLeft += 1.2; // smooth continuous right-to-left glide
 
-  // --- Smooth Auto-Carousel Animation Engine ---
-  useEffect(() => {
-    if (!isAutoPlay || isHovered) return;
-
-    const interval = setInterval(() => {
-      if (!carouselRef.current) return;
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-      const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 30;
-
-      if (isAtEnd) {
-        carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        carouselRef.current.scrollBy({ left: 480, behavior: 'smooth' });
+        // When scrolled past 1/3 of the duplicated content, reset cleanly
+        const singleSetWidth = el.scrollWidth / 3;
+        if (el.scrollLeft >= singleSetWidth * 2) {
+          el.scrollLeft -= singleSetWidth;
+        }
       }
-    }, 4200);
+      animId = requestAnimationFrame(tick);
+    };
 
-    return () => clearInterval(interval);
-  }, [isAutoPlay, isHovered]);
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [shouldAnimate, isHovered, isDragging]);
+
+  // Mouse Drag to Scroll Handlers (Desktop Friendly)
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    if (!carouselRef.current || !hasEnoughForAnimation) return;
+    setIsDragging(true);
+    setDragStartX(e.pageX - carouselRef.current.offsetLeft);
+    setDragStartScrollLeft(carouselRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !carouselRef.current || !hasEnoughForAnimation) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - dragStartX) * 1.5;
+    carouselRef.current.scrollLeft = dragStartScrollLeft - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
 
   return (
     <section id="works" className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 py-20 border-t border-[#2f273c]">
@@ -496,71 +457,22 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
           <div className="flex items-center gap-2 font-mono text-xs text-[#d8ff38]">
             <span>[ OUR PORTFOLIO ]</span>
             <span className="w-8 h-px bg-[#473b5b]"></span>
-            <span>LIVE PROJECTS &amp; APPS</span>
+            <span>FEATURED CLIENT WORK</span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-5xl uppercase tracking-tight text-white">
             EXPLORE OUR WORK.
           </h2>
         </div>
-        <div className="flex flex-col md:items-end gap-3">
+        
+        <div className="flex flex-col md:items-end gap-2">
           <p className="text-sm font-mono text-[#9c93a8] max-w-md md:text-right">
             Browse live websites, digital platforms, and custom software engineered by Launchdrift.
           </p>
-          
-          {/* Animated Carousel Controls & Auto-slide Badge */}
-          <div className="flex items-center gap-3 pt-1">
-            <button
-              onClick={() => {
-                sfx.click();
-                setIsAutoPlay(!isAutoPlay);
-              }}
-              className={`px-3 py-1.5 rounded-lg border font-mono text-xs flex items-center gap-2 transition-all cursor-pointer ${
-                isAutoPlay
-                  ? 'bg-[#d8ff38]/10 border-[#d8ff38] text-[#d8ff38] shadow-[0_0_15px_rgba(216,255,56,0.15)]'
-                  : 'bg-[#1a1423] border-[#2f273c] text-[#9c93a8] hover:text-white'
-              }`}
-              title="Toggle automatic carousel sliding"
-            >
-              {isAutoPlay ? (
-                <>
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d8ff38] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d8ff38]"></span>
-                  </span>
-                  <span>Auto-Sliding Active</span>
-                  <Pause className="w-3 h-3 ml-1" />
-                </>
-              ) : (
-                <>
-                  <Play className="w-3 h-3 text-[#d8ff38]" />
-                  <span>Resume Auto-Slide</span>
-                </>
-              )}
-            </button>
-
-            <div className="hidden sm:flex items-center gap-1.5">
-              <button
-                onClick={() => handleScroll('left')}
-                disabled={!canScrollLeft}
-                className="p-2.5 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 disabled:hover:border-[#2f273c] transition-all cursor-pointer"
-                aria-label="Scroll left"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleScroll('right')}
-                className="p-2.5 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white transition-all cursor-pointer"
-                aria-label="Scroll right"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Category Filter Pills */}
-      <div className="flex items-center justify-between gap-4 pt-6">
+      <div className="flex items-center justify-between gap-4 pt-6 pb-2">
         <div className="flex items-center gap-2 overflow-x-auto pb-2 font-mono text-xs scrollbar-none w-full">
           {CATEGORIES.map((cat) => (
             <button
@@ -569,7 +481,7 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
                 sfx.click();
                 setFilter(cat.id);
                 if (carouselRef.current) {
-                  carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+                  carouselRef.current.scrollLeft = 0;
                 }
               }}
               className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all border cursor-pointer ${
@@ -584,38 +496,36 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
         </div>
       </div>
 
-      {/* Scroll Progress Bar */}
-      <div className="w-full bg-[#1a1423] h-1 rounded-full overflow-hidden mt-4">
-        <div
-          className="bg-[#d8ff38] h-full transition-all duration-300"
-          style={{ width: `${Math.max(10, scrollProgress)}%` }}
-        />
-      </div>
-
       {/* ========================================================================= */}
-      {/* ANIMATING / SCROLLABLE CAROUSEL CONTAINER                                 */}
+      {/* CONTINUOUS AUTO-ANIMATING 60FPS CAROUSEL CONTAINER (DRAGGABLE & SWIPEABLE) */}
       {/* ========================================================================= */}
       <div
         ref={carouselRef}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onTouchStart={() => setIsHovered(true)}
-        onTouchEnd={() => setTimeout(() => setIsHovered(false), 2000)}
-        className="flex gap-6 overflow-x-auto py-8 scroll-smooth snap-x snap-mandatory scrollbar-none transition-all"
+        onMouseLeave={() => {
+          setIsHovered(false);
+          handleMouseUpOrLeave();
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUpOrLeave}
+        className={`flex gap-6 overflow-x-auto py-6 scrollbar-none transition-all select-none ${
+          isDragging ? 'cursor-grabbing' : 'cursor-grab'
+        }`}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {filteredProjects.map((project, index) => {
-          const isWidgetOpen = openInteractiveWidget === project.id;
+        {displayProjects.map((project, index) => {
+          const isWidgetOpen = openInteractiveWidget === `${project.id}-${index}`;
           return (
             <article
-              key={project.id}
-              className="w-[88vw] sm:w-[480px] lg:w-[520px] shrink-0 snap-start bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38]/60 transition-all duration-300 rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6 group hover:shadow-[0_0_35px_rgba(216,255,56,0.08)] hover:-translate-y-1"
+              key={`${project.id}-${index}`}
+              className="w-[85vw] sm:w-[460px] lg:w-[480px] shrink-0 bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38]/70 transition-all duration-300 rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6 group hover:shadow-[0_0_30px_rgba(216,255,56,0.08)] hover:-translate-y-1"
             >
               <div className="flex flex-col gap-4">
                 {/* Card Header & Category */}
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-mono text-xs text-[#d8ff38] uppercase font-bold flex items-center gap-1.5">
-                    <Terminal className="w-3.5 h-3.5" />
+                    <Terminal className="w-3.5 h-3.5 text-[#d8ff38]" />
                     {project.category}
                   </span>
                   {project.highlightBadge && (
@@ -625,48 +535,51 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
                   )}
                 </div>
 
-                {/* Visual Media Preview Image (For EVERY Project) */}
+                {/* Visual Media Preview Image (Clean with NO Mirror/Shade Overlays) */}
                 <div className="aspect-[16/9] w-full rounded-xl overflow-hidden border border-[#2f273c] bg-[#0a070e] relative group-hover:border-[#473b5b] transition-all group/img">
                   <img
                     alt={project.title}
                     src={project.imageUrl}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
+                    }}
                     className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-700 ease-out"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a070e] via-transparent to-transparent opacity-80" />
 
-                  {/* Featured Metric Overlay */}
+                  {/* Featured Metric Chip */}
                   {project.featuredMetric && (
-                    <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-[#0a070e]/90 backdrop-blur-md border border-[#2f273c] font-mono text-[10px] text-[#d8ff38] shadow-lg flex items-center gap-1.5">
+                    <div className="absolute bottom-3 left-3 px-2.5 py-1 rounded-lg bg-[#0a070e]/95 border border-[#2f273c] font-mono text-[10px] text-[#d8ff38] shadow-lg flex items-center gap-1.5">
                       <Sparkles className="w-3 h-3 text-[#d8ff38]" />
                       <span>{project.featuredMetric.label}:</span>
                       <strong className="text-white">{project.featuredMetric.val}</strong>
                     </div>
                   )}
 
-                  {/* Interactive Mini-Widget Toggle (For slot, landscape, hft) */}
+                  {/* Interactive Sandbox Mini-Widget Toggle (For slot, landscape) */}
                   {project.interactiveType && (
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         sfx.click();
-                        setOpenInteractiveWidget(isWidgetOpen ? null : project.id);
+                        setOpenInteractiveWidget(isWidgetOpen ? null : `${project.id}-${index}`);
                       }}
-                      className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-[#1a1423]/90 backdrop-blur-md border border-[#d8ff38]/60 text-[#d8ff38] font-mono text-[10px] font-bold flex items-center gap-1 hover:bg-[#d8ff38] hover:text-[#0a070e] transition-all shadow-md cursor-pointer"
+                      className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-[#1a1423]/95 border border-[#d8ff38]/60 text-[#d8ff38] font-mono text-[10px] font-bold flex items-center gap-1 hover:bg-[#d8ff38] hover:text-[#0a070e] transition-all shadow-md cursor-pointer"
                     >
                       <Sliders className="w-3 h-3" />
-                      <span>{isWidgetOpen ? 'Hide Sandbox' : 'Try Live Sandbox'}</span>
+                      <span>{isWidgetOpen ? 'Hide Sandbox' : 'Live Sandbox'}</span>
                     </button>
                   )}
                 </div>
 
                 {/* Optional Expandable Live Interactive Widget */}
                 {isWidgetOpen && project.interactiveType === 'slot' && (
-                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-4 flex flex-col gap-3 font-mono text-xs animate-fadeIn shadow-lg">
+                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-3.5 flex flex-col gap-2.5 font-mono text-xs animate-fadeIn shadow-lg">
                     <div className="grid grid-cols-3 gap-2">
                       {reels.map((symbol, i) => (
                         <div
                           key={i}
-                          className={`h-12 rounded-lg bg-[#130e1b] border flex items-center justify-center font-display font-black text-sm transition-all ${
+                          className={`h-11 rounded-lg bg-[#130e1b] border flex items-center justify-center font-display font-black text-sm transition-all ${
                             slotStatus === 'won'
                               ? 'border-[#d8ff38] text-[#d8ff38] shadow-[0_0_10px_rgba(216,255,56,0.3)] animate-pulse'
                               : slotStatus === 'spinning'
@@ -683,17 +596,17 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
                       <button
                         disabled={slotStatus === 'spinning'}
                         onClick={spinSlot}
-                        className="px-3 py-1 rounded bg-[#d8ff38] text-[#0a070e] font-bold text-[10px] uppercase hover:brightness-110 active:scale-95 transition-all flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1 rounded bg-[#d8ff38] text-[#0a070e] font-bold text-[10px] uppercase hover:brightness-110 active:scale-95 transition-all flex items-center gap-1 cursor-pointer"
                       >
                         <RotateCw className={`w-3 h-3 ${slotStatus === 'spinning' ? 'animate-spin' : ''}`} />
-                        <span>{slotStatus === 'spinning' ? 'Spinning...' : 'Spin Simulation'}</span>
+                        <span>{slotStatus === 'spinning' ? 'Spinning...' : 'Spin Demo'}</span>
                       </button>
                     </div>
                   </div>
                 )}
 
                 {isWidgetOpen && project.interactiveType === 'landscape' && (
-                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-4 flex flex-col gap-2.5 font-mono text-xs animate-fadeIn shadow-lg">
+                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-3.5 flex flex-col gap-2 font-mono text-xs animate-fadeIn shadow-lg">
                     <div className="flex items-center justify-between text-[10px]">
                       <span className="text-[#9c93a8]">ESTIMATED AREA: {scopeSqFt.toLocaleString()} sq ft</span>
                       <span className="text-[#d8ff38] font-bold">${calculatedCost.toLocaleString()} EST.</span>
@@ -708,29 +621,8 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
                       className="w-full accent-[#d8ff38] cursor-pointer"
                     />
                     <div className="flex items-center justify-between text-[10px] text-[#9c93a8]">
-                      <span>Estimated Timeline: <strong className="text-white">~{calculatedWeeks} Weeks</strong></span>
+                      <span>Timeline: <strong className="text-white">~{calculatedWeeks} Weeks</strong></span>
                       <span className="text-[#ff6b35] font-bold">Interactive Calculator</span>
-                    </div>
-                  </div>
-                )}
-
-                {isWidgetOpen && project.interactiveType === 'hft' && (
-                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-4 flex flex-col gap-2 font-mono text-xs animate-fadeIn shadow-lg">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-[#d8ff38] animate-ping" />
-                        <span className="text-white font-bold">BTC: ${btcPrice.toLocaleString()}</span>
-                      </div>
-                      <span className="text-[#d8ff38] font-bold">{priceChange}</span>
-                    </div>
-                    <div className="flex items-center justify-between pt-2 border-t border-[#2f273c]">
-                      <span className="text-[10px] text-[#9c93a8]">Execution Latency: <strong className="text-[#ff6b35]">&lt; {lastMatchLatency}</strong></span>
-                      <button
-                        onClick={handleSimulateOrder}
-                        className="px-2.5 py-1 rounded bg-[#241d30] text-[#d8ff38] text-[10px] font-bold uppercase hover:bg-[#30273f] cursor-pointer"
-                      >
-                        Test Instant Order
-                      </button>
                     </div>
                   </div>
                 )}
@@ -741,7 +633,7 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
                     {project.title}
                   </h3>
                   {project.domain && (
-                    <span className="font-mono text-xs text-[#ff6b35]">{project.domain}</span>
+                    <span className="font-mono text-xs text-[#ff6b35] font-semibold">{project.domain}</span>
                   )}
                 </div>
 
@@ -796,47 +688,15 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
         })}
       </div>
 
-      {/* Interactive Pagination Dots & Status Bar */}
+      {/* Bottom Status Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#2f273c]/50 font-mono text-xs text-[#9c93a8]">
         <div className="flex items-center gap-2">
-          <span>SHOWING: <strong className="text-white">{filteredProjects.length} Projects</strong></span>
+          <span>PORTFOLIO: <strong className="text-white">{filteredProjects.length} Projects</strong></span>
           <span className="text-[#473b5b]">|</span>
-          <span className="text-[#d8ff38]">Hover to pause • Swipe or click to slide</span>
+          <span className="text-[#d8ff38]">Launchdrift Software Studio</span>
         </div>
-
-        {/* Dot Indicators */}
-        <div className="flex items-center gap-1.5">
-          {filteredProjects.map((p, idx) => (
-            <button
-              key={p.id}
-              onClick={() => scrollToProjectIndex(idx)}
-              className={`h-2 rounded-full transition-all cursor-pointer ${
-                activeIndex === idx
-                  ? 'w-6 bg-[#d8ff38]'
-                  : 'w-2 bg-[#2f273c] hover:bg-[#473b5b]'
-              }`}
-              aria-label={`Jump to project ${idx + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Prev / Next Bottom Controls */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => handleScroll('left')}
-            disabled={!canScrollLeft}
-            className="p-2 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white disabled:opacity-30 transition-all cursor-pointer"
-            aria-label="Previous project"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => handleScroll('right')}
-            className="p-2 rounded-lg bg-[#1a1423] border border-[#2f273c] hover:border-[#d8ff38] text-white transition-all cursor-pointer"
-            aria-label="Next project"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
+        <div className="text-[11px] text-[#9c93a8]">
+          Click any project card to read full breakdown
         </div>
       </div>
 
