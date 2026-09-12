@@ -1,0 +1,16 @@
+# Launchdrift Studio
+
+> Bespoke MVP Architecture & Digital Product Engineering Studio.
+
+Launchdrift is an elite engineering studio that designs and ships production-grade MVPs, high-converting interactive web apps, custom client portals, and booking engines for funded startups, venture studios, and ambitious local brands.
+
+## Core Capabilities
+- **Full-Stack MVPs**: React, Next.js, TypeScript, Node.js, Python, Tailwind CSS, PostgreSQL, Redis, AWS.
+- **High-Converting Web Experiences**: Interactive lead funnels, quote calculators, booking workflows, guided selling quizzes.
+- **Turnaround Speed**: Production-ready architecture deployed in 10-14 days.
+- **Founders & Contact**: founders@launchdrift.online | https://launchdrift.online
+
+## Key Offerings
+- Production MVP Builds (Fixed Scope & Timeline)
+- High-Conversion Redesigns & Interactive Engines
+- Enterprise & Local Business Lead Portals
