@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-lowest: #0a070e;
+  --color-surface-dim: #0d0a12;
+  --color-surface: #130e1b;
+  --color-surface-container: #1a1423;
+  --color-surface-container-high: #241d30;
+  --color-surface-container-highest: #30273f;
+  
+  --color-primary-container: #d8ff38;
+  --color-on-primary-container: #111800;
+  
+  --color-accent-signal: #ff6b35;
+  --color-accent-amber: #f59e0b;
+  --color-accent-cyan: #38bdf8;
+  
+  --color-on-surface: #eadff1;
+  --color-on-surface-variant: #9c93a8;
+  
+  --color-outline-dim: #2f273c;
+  --color-outline-bright: #473b5b;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  body {
+    background-color: #0d0a12;
+    color: #eadff1;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+.grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+.cyber-scanner {
+  background: linear-gradient(90deg, transparent 0%, rgba(216, 255, 56, 0.15) 50%, transparent 100%);
+  animation: scan 4s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
