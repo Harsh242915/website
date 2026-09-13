@@ -88,16 +88,17 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     interactiveType: 'landscape'
   },
 
-  // 3. Neon Cyber Jackpot — 60FPS WebGL Game Engine
+  // 3. Jingle Reel — 60FPS HTML5 Slot Game
   {
     id: 'neon-cyber-jackpot',
-    title: 'Neon Cyber Jackpot — Interactive 3D Game',
-    category: 'Interactive 3D & Audio',
+    title: 'Jingle Reel — Interactive 60FPS Slot Game',
+    category: 'Interactive Gaming & Audio Engine',
     tag: 'webgl',
-    highlightBadge: 'Silky 60 FPS',
-    imageUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop',
-    description: 'Ultra-smooth interactive slot game built directly in the browser with lively visual animations, dynamic sound effects, and verified fair random number logic.',
-    techStack: ['3D Web Graphics', 'Fast Backend', 'Live WebSockets', 'Browser Audio'],
+    highlightBadge: 'Live Netlify Demo',
+    clientUrl: 'https://celebrated-kangaroo-692f83.netlify.app/',
+    imageUrl: '/jingle-reel.jpg',
+    description: 'Ultra-smooth interactive 5-reel festive slot game built with Pixi.js WebGL rendering, custom audio engine, real-time balance tracking, and verified fair random math.',
+    techStack: ['Pixi.js WebGL', 'WebAudio API', 'HTML5 Canvas', 'TypeScript'],
     metrics: [
       'Silky smooth 60 frames-per-second animation',
       'Fair, tamper-proof random number verification',
@@ -108,17 +109,17 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
       val: '60 FPS Ultra-Smooth'
     },
     fullDetails: {
-      overview: 'A high-performance browser-based interactive game prototype demonstrating responsive graphics, real-time balance tracking, and fair math calculations.',
+      overview: 'A high-performance browser-based interactive 5-reel slot game demonstrating responsive Pixi.js WebGL graphics, real-time balance tracking, and fair math calculations.',
       architecture: [
-        'Hardware-accelerated browser animations for stutter-free visuals',
-        'Lightweight sound synthesizer generating audio on the fly without large file downloads',
-        'Secure server-side spin verification'
+        'Hardware-accelerated browser animations for stutter-free 60FPS visuals',
+        'Lightweight sound synthesizer generating audio on the fly without large downloads',
+        'Direct responsive canvas scaling across desktop and mobile devices'
       ],
       metrics: [
         '60 FPS Smooth Rendering Pass',
         'Instant response time'
       ],
-      techStack: ['Three.js', 'FastAPI', 'WebSockets', 'WebAudio API']
+      techStack: ['Pixi.js WebGL', 'HTML5 Canvas', 'WebAudio API', 'TypeScript']
     },
     interactiveType: 'slot'
   },
