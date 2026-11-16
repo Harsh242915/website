@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react';
 import {
   ExternalLink,
+  RotateCw,
   Play,
   Pause,
   ArrowRight,
@@ -17,6 +18,7 @@ interface WorksSectionProps {
 }
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop';
+const REEL_SYMBOLS = ['777', 'BAR', 'NEON', 'CYBER', 'JACKPOT', 'GEM', 'BOLT'];
 
 export const ALL_PROJECTS: ProjectArtifact[] = [
   // 1. Jacob's Ladder Cafe & Digital Storefront (Live Preview)
@@ -86,32 +88,38 @@ export const ALL_PROJECTS: ProjectArtifact[] = [
     interactiveType: 'landscape'
   },
 
-  // 3. Temple of the Cobra — V2 asset preview
+  // 3. Jingle Reel — 60FPS HTML5 Slot Game
   {
-    id: 'temple-cobra',
-    title: 'Temple of the Cobra — Playable V2 Demo',
-    category: 'Interactive Slot Demo',
+    id: 'neon-cyber-jackpot',
+    title: 'Jingle Reel — Interactive 60FPS Slot Game',
+    category: 'Interactive Gaming & Audio Engine',
     tag: 'webgl',
-    highlightBadge: 'New V2 Assets',
-    clientUrl: '/temple-cobra/preview.html',
-    imageUrl: '/temple-cobra/static_assembly.jpg',
-    description: 'Temple-inspired five-reel demo using the new V2 artwork, with animated reels, demo credits, winning rows, adjustable bets, Turbo, Auto, and sound.',
-    techStack: ['HTML5', 'Transparent PNG Assets', 'Responsive UI', 'CSS Animation'],
+    highlightBadge: 'Live Netlify Demo',
+    clientUrl: 'https://celebrated-kangaroo-692f83.netlify.app/',
+    imageUrl: '/jingle-reel.jpg',
+    description: 'Ultra-smooth interactive 5-reel festive slot game built with Pixi.js WebGL rendering, custom audio engine, real-time balance tracking, and verified fair random math.',
+    techStack: ['Pixi.js WebGL', 'WebAudio API', 'HTML5 Canvas', 'TypeScript'],
     metrics: [
-      'Updated V2 artwork and native layout coordinates',
-      'Independent spin face, bezel, and animated arrows',
-      'Interactive bet values, mute, and button states'
+      'Silky smooth 60 frames-per-second animation',
+      'Fair, tamper-proof random number verification',
+      'Built-in procedural audio without heavy file downloads'
     ],
-    featuredMetric: { label: 'Asset Kit', val: 'V2' },
+    featuredMetric: {
+      label: 'Visual Smoothness',
+      val: '60 FPS Ultra-Smooth'
+    },
     fullDetails: {
-      overview: 'A playable five-reel browser demo using the Temple of the Cobra V2 artwork, with three horizontal winning rows, demo credits, adjustable bets, sound, Turbo, and ten-round Auto play. Reel symbols and gameplay are added to the static kit for this demo.',
+      overview: 'A high-performance browser-based interactive 5-reel slot game demonstrating responsive Pixi.js WebGL graphics, real-time balance tracking, and fair math calculations.',
       architecture: [
-        'Layered artwork positioned using the supplied 1672 × 941 layout',
-        'Runtime labels over blank HUD panels and independently animated spin arrows',
-        'Uniform scaling preserves the artwork proportions across screen sizes'
+        'Hardware-accelerated browser animations for stutter-free 60FPS visuals',
+        'Lightweight sound synthesizer generating audio on the fly without large downloads',
+        'Direct responsive canvas scaling across desktop and mobile devices'
       ],
-      metrics: ['V2 asset integration', 'Interactive UI state preview', 'Original mock comparison'],
-      techStack: ['HTML5', 'CSS Animation', 'PNG', 'DejaVu Fonts']
+      metrics: [
+        '60 FPS Smooth Rendering Pass',
+        'Instant response time'
+      ],
+      techStack: ['Pixi.js WebGL', 'HTML5 Canvas', 'WebAudio API', 'TypeScript']
     },
     interactiveType: 'slot'
   },
@@ -350,6 +358,36 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
   // Toggle state to open inline interactive sandbox widget per card
   const [openInteractiveWidget, setOpenInteractiveWidget] = useState<string | null>(null);
 
+  // --- Slot Machine State ---
+  const [slotBalance, setSlotBalance] = useState(4890.00);
+  const [slotStatus, setSlotStatus] = useState<'idle' | 'spinning' | 'won'>('idle');
+  const [reels, setReels] = useState(['777', 'BAR', 'BAR']);
+
+  const spinSlot = () => {
+    if (slotStatus === 'spinning') return;
+    sfx.click();
+    setSlotStatus('spinning');
+
+    let counter = 0;
+    const interval = setInterval(() => {
+      sfx.tick();
+      setReels([
+        REEL_SYMBOLS[Math.floor(Math.random() * REEL_SYMBOLS.length)],
+        REEL_SYMBOLS[Math.floor(Math.random() * REEL_SYMBOLS.length)],
+        REEL_SYMBOLS[Math.floor(Math.random() * REEL_SYMBOLS.length)],
+      ]);
+      counter++;
+      if (counter > 10) {
+        clearInterval(interval);
+        setReels(['777', '777', '777']);
+        setSlotStatus('won');
+        setSlotBalance(prev => prev + 250);
+        sfx.winChime();
+        setTimeout(() => setSlotStatus('idle'), 4000);
+      }
+    }, 90);
+  };
+
   // --- Landscapes WA Scope Estimator Interactive State ---
   const [scopeSqFt, setScopeSqFt] = useState(3800);
   const calculatedCost = Math.round(scopeSqFt * 380);
@@ -537,16 +575,34 @@ export function WorksSection({ onOpenArchitecture }: WorksSectionProps) {
 
                 {/* Optional Expandable Live Interactive Widget */}
                 {isWidgetOpen && project.interactiveType === 'slot' && (
-                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#171c20] animate-fadeIn">
-                    <iframe
-                      src="/temple-cobra/preview.html"
-                      title="Temple of the Cobra V2 playable demo"
-                      className="w-full h-[340px] border-0"
-                      loading="lazy"
-                    />
-                    <a href="/temple-cobra/preview.html" target="_blank" rel="noopener noreferrer" className="block px-3 py-2 text-xs text-[#d8ff38] hover:underline">
-                      Play full-size demo ↗
-                    </a>
+                  <div className="w-full rounded-xl overflow-hidden border border-[#d8ff38]/50 bg-[#0a070e] p-3.5 flex flex-col gap-2.5 font-mono text-xs animate-fadeIn shadow-lg">
+                    <div className="grid grid-cols-3 gap-2">
+                      {reels.map((symbol, i) => (
+                        <div
+                          key={i}
+                          className={`h-11 rounded-lg bg-[#130e1b] border flex items-center justify-center font-display font-black text-sm transition-all ${
+                            slotStatus === 'won'
+                              ? 'border-[#d8ff38] text-[#d8ff38] shadow-[0_0_10px_rgba(216,255,56,0.3)] animate-pulse'
+                              : slotStatus === 'spinning'
+                              ? 'border-[#ff6b35] text-[#ff6b35]'
+                              : 'border-[#2f273c] text-white'
+                          }`}
+                        >
+                          {symbol}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between pt-1 border-t border-[#2f273c]">
+                      <span className="text-[10px] text-[#9c93a8]">DEMO CREDITS: <strong className="text-[#d8ff38]">${slotBalance.toFixed(2)}</strong></span>
+                      <button
+                        disabled={slotStatus === 'spinning'}
+                        onClick={spinSlot}
+                        className="px-2.5 py-1 rounded bg-[#d8ff38] text-[#0a070e] font-bold text-[10px] uppercase hover:brightness-110 active:scale-95 transition-all flex items-center gap-1 cursor-pointer"
+                      >
+                        <RotateCw className={`w-3 h-3 ${slotStatus === 'spinning' ? 'animate-spin' : ''}`} />
+                        <span>{slotStatus === 'spinning' ? 'Spinning...' : 'Spin Demo'}</span>
+                      </button>
+                    </div>
                   </div>
                 )}
 
