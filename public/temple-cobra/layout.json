@@ -1,0 +1,712 @@
+{
+  "name": "Temple of the Cobra \u2014 reconstructed static kit",
+  "version": 2,
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "coordinate_system": "Top-left origin, native pixels, straight alpha RGBA PNG.",
+  "assets": [
+    {
+      "id": "reel_backing",
+      "file": "assets/reel_backing.png",
+      "x": 361,
+      "y": 309,
+      "width": 944,
+      "height": 468,
+      "z": 0,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/reel_backing.png",
+      "notes": "Complete reconstructed stone; opaque with no symbol remnants.",
+      "clear_rects": []
+    },
+    {
+      "id": "hud_platform",
+      "file": "assets/hud_platform.png",
+      "x": 44,
+      "y": 803,
+      "width": 1583,
+      "height": 138,
+      "z": 2,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/hud_platform.png",
+      "notes": "Full reconstructed ledge behind all HUD controls.",
+      "clear_rects": []
+    },
+    {
+      "id": "reel_row_divider_01",
+      "file": "assets/reel_row_divider_01.png",
+      "x": 369,
+      "y": 462,
+      "width": 929,
+      "height": 7,
+      "z": 5,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/reel_horizontal_divider.png",
+      "notes": "",
+      "clear_rects": []
+    },
+    {
+      "id": "reel_row_divider_02",
+      "file": "assets/reel_row_divider_02.png",
+      "x": 369,
+      "y": 618,
+      "width": 929,
+      "height": 7,
+      "z": 5,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/reel_horizontal_divider.png",
+      "notes": "",
+      "clear_rects": []
+    },
+    {
+      "id": "reel_bottom_rail_complete",
+      "file": "assets/reel_bottom_rail_complete.png",
+      "x": 324,
+      "y": 770,
+      "width": 1029,
+      "height": 33,
+      "z": 9,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/reel_top_rail_complete.png",
+      "notes": "Continuous matching stone/gold rail behind the original winged emerald ornament; no missing rectangular gaps.",
+      "clear_rects": []
+    },
+    {
+      "id": "reel_left_outer_structure",
+      "file": "assets/reel_left_outer_structure.png",
+      "x": 258,
+      "y": 282,
+      "width": 113,
+      "height": 492,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Includes decorative small cobra and side-panel surrounds; rune inset is separate.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "reel_right_outer_structure",
+      "file": "assets/reel_right_outer_structure.png",
+      "x": 1295,
+      "y": 282,
+      "width": 108,
+      "height": 492,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Includes decorative small cobra and side-panel surrounds; rune inset is separate.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "runes_left",
+      "file": "assets/runes_left.png",
+      "x": 293,
+      "y": 405,
+      "width": 46,
+      "height": 273,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Static visible runes and their stone backing. No glow animation separated.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "runes_right",
+      "file": "assets/runes_right.png",
+      "x": 1333,
+      "y": 405,
+      "width": 40,
+      "height": 273,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Static visible runes and their stone backing.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "reel_vertical_divider_01",
+      "file": "assets/reel_vertical_divider_01.png",
+      "x": 544,
+      "y": 316,
+      "width": 19,
+      "height": 455,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Original narrow stone/gold column; do not stretch horizontally.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "reel_vertical_divider_02",
+      "file": "assets/reel_vertical_divider_02.png",
+      "x": 729,
+      "y": 316,
+      "width": 21,
+      "height": 455,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Original narrow stone/gold column; do not stretch horizontally.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "reel_vertical_divider_03",
+      "file": "assets/reel_vertical_divider_03.png",
+      "x": 920,
+      "y": 316,
+      "width": 20,
+      "height": 455,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Original narrow stone/gold column; do not stretch horizontally.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "reel_vertical_divider_04",
+      "file": "assets/reel_vertical_divider_04.png",
+      "x": 1107,
+      "y": 316,
+      "width": 19,
+      "height": 455,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Original narrow stone/gold column; do not stretch horizontally.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "reel_bottom_winged_emerald",
+      "file": "assets/reel_bottom_winged_emerald.png",
+      "x": 691,
+      "y": 765,
+      "width": 289,
+      "height": 50,
+      "z": 10,
+      "anchor": "top-left",
+      "notes": "Winged decoration; glow is baked into the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "logo",
+      "file": "assets/logo.png",
+      "x": 29,
+      "y": 26,
+      "width": 311,
+      "height": 200,
+      "z": 10,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/logo_clean_v2.png",
+      "notes": "Clean transparent interpretation; minor lettering/ornament changes versus original.",
+      "clear_rects": []
+    },
+    {
+      "id": "reel_top_rail_complete",
+      "file": "assets/reel_top_rail_complete.png",
+      "x": 345,
+      "y": 282,
+      "width": 979,
+      "height": 35,
+      "z": 12,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/reel_top_rail_complete.png",
+      "notes": "Replaces split rails and fills previously hidden centre. Hero character may overlap it.",
+      "clear_rects": []
+    },
+    {
+      "id": "hud_balance_panel",
+      "file": "assets/hud_balance_panel.png",
+      "x": 156,
+      "y": 821,
+      "width": 212,
+      "height": 84,
+      "z": 20,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/hud_panel_blank.png",
+      "notes": "Blank opaque panel. Draw ALL labels and amounts in runtime. Avoid stretching further; use supplied native master for new aspect ratios.",
+      "clear_rects": []
+    },
+    {
+      "id": "hud_bet_panel",
+      "file": "assets/hud_bet_panel.png",
+      "x": 392,
+      "y": 820,
+      "width": 217,
+      "height": 85,
+      "z": 20,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/hud_panel_blank.png",
+      "notes": "Blank opaque panel. Draw ALL labels and amounts in runtime. Avoid stretching further; use supplied native master for new aspect ratios.",
+      "clear_rects": []
+    },
+    {
+      "id": "hud_total_bet_panel",
+      "file": "assets/hud_total_bet_panel.png",
+      "x": 1060,
+      "y": 821,
+      "width": 158,
+      "height": 84,
+      "z": 20,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/hud_panel_blank.png",
+      "notes": "Blank opaque panel. Draw ALL labels and amounts in runtime. Avoid stretching further; use supplied native master for new aspect ratios.",
+      "clear_rects": []
+    },
+    {
+      "id": "hud_win_panel",
+      "file": "assets/hud_win_panel.png",
+      "x": 633,
+      "y": 817,
+      "width": 406,
+      "height": 104,
+      "z": 20,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/hud_win_blank.png",
+      "notes": "Blank opaque emerald-trim panel. Draw heading and value in runtime.",
+      "clear_rects": []
+    },
+    {
+      "id": "button_info",
+      "file": "assets/button_info.png",
+      "x": 60,
+      "y": 829,
+      "width": 72,
+      "height": 73,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Info icon and original circular base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_bet_minus",
+      "file": "assets/button_bet_minus.png",
+      "x": 401,
+      "y": 861,
+      "width": 35,
+      "height": 35,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Minus icon and circular base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_bet_plus",
+      "file": "assets/button_bet_plus.png",
+      "x": 565,
+      "y": 861,
+      "width": 35,
+      "height": 35,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Plus icon and circular base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_turbo",
+      "file": "assets/button_turbo.png",
+      "x": 1221,
+      "y": 829,
+      "width": 72,
+      "height": 73,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Lightning icon, TURBO label and base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_auto",
+      "file": "assets/button_auto.png",
+      "x": 1310,
+      "y": 829,
+      "width": 73,
+      "height": 73,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Auto icon, AUTO label and base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_menu",
+      "file": "assets/button_menu.png",
+      "x": 1461,
+      "y": 24,
+      "width": 53,
+      "height": 54,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Menu icon and base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_sound_on",
+      "file": "assets/button_sound_on.png",
+      "x": 1525,
+      "y": 24,
+      "width": 54,
+      "height": 54,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Speaker icon and base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "button_settings",
+      "file": "assets/button_settings.png",
+      "x": 1589,
+      "y": 24,
+      "width": 54,
+      "height": 54,
+      "z": 30,
+      "anchor": "top-left",
+      "notes": "Settings icon and base combined. Only the visible state exists in the source.",
+      "clear_rects": [],
+      "origin": "original_pixel_extract"
+    },
+    {
+      "id": "spin_face",
+      "file": "assets/spin_face.png",
+      "x": 1417,
+      "y": 737,
+      "width": 178,
+      "height": 178,
+      "z": 30,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/spin_face.png",
+      "notes": "Independent dark emerald face, under bezel.",
+      "clear_rects": []
+    },
+    {
+      "id": "spin_ring",
+      "file": "assets/spin_ring.png",
+      "x": 1391,
+      "y": 711,
+      "width": 229,
+      "height": 229,
+      "z": 32,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/spin_ring.png",
+      "notes": "Independent bezel; transparent centre.",
+      "clear_rects": []
+    },
+    {
+      "id": "spin_arrows",
+      "file": "assets/spin_arrows.png",
+      "x": 1443,
+      "y": 762,
+      "width": 126,
+      "height": 126,
+      "z": 34,
+      "anchor": "top-left",
+      "origin": "reconstructed_style_match",
+      "master": "masters/spin_arrows_clean.png",
+      "notes": "Separate icon. Rotate about canvas centre; no face or bezel baked in.",
+      "clear_rects": []
+    }
+  ],
+  "text_fields": [
+    {
+      "id": "balance_label",
+      "x": 171,
+      "y": 832,
+      "width": 182,
+      "height": 25,
+      "text": "BALANCE",
+      "size": 16,
+      "color": "#e5c071"
+    },
+    {
+      "id": "balance_value",
+      "x": 174,
+      "y": 863,
+      "width": 178,
+      "height": 29,
+      "text": "$10,523.40",
+      "size": 23,
+      "color": "#ffffff"
+    },
+    {
+      "id": "bet_label",
+      "x": 441,
+      "y": 832,
+      "width": 120,
+      "height": 25,
+      "text": "BET",
+      "size": 16,
+      "color": "#e5c071"
+    },
+    {
+      "id": "bet_value",
+      "x": 439,
+      "y": 863,
+      "width": 124,
+      "height": 29,
+      "text": "$2.00",
+      "size": 23,
+      "color": "#ffffff"
+    },
+    {
+      "id": "win_label",
+      "x": 688,
+      "y": 826,
+      "width": 302,
+      "height": 26,
+      "text": "WIN",
+      "size": 21,
+      "color": "#e5c071"
+    },
+    {
+      "id": "win_value",
+      "x": 688,
+      "y": 852,
+      "width": 302,
+      "height": 59,
+      "text": "$0.00",
+      "size": 44,
+      "color": "#d5a443"
+    },
+    {
+      "id": "total_bet_label",
+      "x": 1068,
+      "y": 832,
+      "width": 140,
+      "height": 25,
+      "text": "TOTAL BET",
+      "size": 16,
+      "color": "#e5c071"
+    },
+    {
+      "id": "total_bet_value",
+      "x": 1070,
+      "y": 863,
+      "width": 137,
+      "height": 29,
+      "text": "$2.00",
+      "size": 23,
+      "color": "#ffffff"
+    }
+  ],
+  "masters": {
+    "reel_backing": {
+      "file": "masters/reel_backing.png",
+      "size": [
+        1774,
+        887
+      ],
+      "trim_box": [
+        0,
+        0,
+        1774,
+        887
+      ]
+    },
+    "hud_platform": {
+      "file": "masters/hud_platform.png",
+      "size": [
+        2172,
+        724
+      ],
+      "trim_box": [
+        10,
+        314,
+        2163,
+        549
+      ]
+    },
+    "hud_panel_blank": {
+      "file": "masters/hud_panel_blank.png",
+      "size": [
+        2001,
+        786
+      ],
+      "trim_box": [
+        69,
+        56,
+        1933,
+        726
+      ]
+    },
+    "hud_win_blank": {
+      "file": "masters/hud_win_blank.png",
+      "size": [
+        2172,
+        724
+      ],
+      "trim_box": [
+        113,
+        134,
+        2059,
+        551
+      ]
+    },
+    "logo_clean_v2": {
+      "file": "masters/logo_clean_v2.png",
+      "size": [
+        1564,
+        1006
+      ],
+      "trim_box": [
+        18,
+        0,
+        1548,
+        1006
+      ]
+    },
+    "spin_face": {
+      "file": "masters/spin_face.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "trim_box": [
+        333,
+        75,
+        1196,
+        948
+      ]
+    },
+    "spin_ring": {
+      "file": "masters/spin_ring.png",
+      "size": [
+        1262,
+        1246
+      ],
+      "trim_box": [
+        56,
+        34,
+        1193,
+        1182
+      ]
+    },
+    "spin_arrows_clean": {
+      "file": "masters/spin_arrows_clean.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "trim_box": [
+        338,
+        82,
+        1192,
+        945
+      ]
+    },
+    "reel_top_rail_complete": {
+      "file": "masters/reel_top_rail_complete.png",
+      "size": [
+        1983,
+        793
+      ],
+      "trim_box": [
+        21,
+        367,
+        1962,
+        426
+      ]
+    },
+    "reel_horizontal_divider": {
+      "file": "masters/reel_horizontal_divider.png",
+      "size": [
+        2172,
+        724
+      ],
+      "trim_box": [
+        41,
+        342,
+        2130,
+        377
+      ]
+    }
+  },
+  "reel_windows": [
+    {
+      "x": 371,
+      "y": 317,
+      "width": 173,
+      "height": 453
+    },
+    {
+      "x": 563,
+      "y": 317,
+      "width": 166,
+      "height": 453
+    },
+    {
+      "x": 750,
+      "y": 317,
+      "width": 170,
+      "height": 453
+    },
+    {
+      "x": 940,
+      "y": 317,
+      "width": 167,
+      "height": 453
+    },
+    {
+      "x": 1126,
+      "y": 317,
+      "width": 169,
+      "height": 453
+    }
+  ],
+  "font": {
+    "ui": "fonts/DejaVuSans.ttf",
+    "optional_serif": "fonts/DejaVuSerif-Bold.ttf",
+    "original_font_recovered": false
+  },
+  "runtime_states": {
+    "normal": {
+      "brightness": 1,
+      "saturation": 1,
+      "opacity": 1
+    },
+    "hover": {
+      "brightness": 1.1,
+      "saturation": 1,
+      "opacity": 1
+    },
+    "pressed": {
+      "brightness": 0.8,
+      "scale": 0.97
+    },
+    "disabled": {
+      "brightness": 0.65,
+      "saturation": 0.25,
+      "opacity": 0.65
+    },
+    "selected": {
+      "brightness": 1.15,
+      "outline": "#d8b05b"
+    }
+  },
+  "remaining_limits": [
+    "Reconstructed art resembles the mock but is not identical to unknown original pixels.",
+    "Original side-frame extracts still have baked illumination and may retain tiny edge backdrop fragments.",
+    "Original buttons retain baked icons and labels. Their states are provided as runtime styling, not separately repainted PNGs.",
+    "Muted sound is implemented as a runtime slash overlay; no independent repainted muted bitmap.",
+    "Original font is unknown; included fonts are licensed substitutes.",
+    "Portrait layout, game logic, animation, symbols and background are outside this static-kit scope."
+  ]
+}
